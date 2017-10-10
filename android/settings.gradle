@@ -1,0 +1,3 @@
+rootProject.name = 'ranonative'
+
+include ':app'
