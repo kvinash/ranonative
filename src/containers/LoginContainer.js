@@ -12,81 +12,87 @@ import {
   TextInput,
   StyleSheet,
   Dimensions,
-  AsyncStorage
+  AsyncStorage,
+  ToastAndroid
   
 
 } from "react-native";
 import assets from "../assets/";
-
+import { validateEmail } from '../components/validationHandler';
 import Login from '../components/Login'
-import {onLoginAction} from '../actions';
-export default class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      fontLoaded: false,
-      username:null,
-      password:null
-    };
-  
+import {onLoginAction, setDetails} from '../actions';
+ class LoginContainer extends React.Component {
+  constructor(props){
+    super(props)
+    console.log('containerProps', this.props);
+    this.state={
+      message : null
+    }
   }
   componentWillMount() {
-    let username =  AsyncStorage.getItem('@username:key',(err, result)=>{
-        if(err){
-            alert(err, "error");
-        } else {
-            alert(result, 'result');
-        }
-    });
+    // let username =  AsyncStorage.getItem('@username:key',(err, result)=>{
+    //     if(err){
+    //         alert(err, "error");
+    //     } else {
+    //         alert(result, 'result');
+    //     }
+    // });
    
   }
   componentWillReceiveProps(nextProps) {
-   
+    console.log(nextProps)
+    if(nextProps.loginStatus){
+      AsyncStorage.setItem('@username:key', `${this.props.username}`);
+      AsyncStorage.setItem('@password:key', `${this.props.password}`);
+      ToastAndroid.show('Login hase been done succesfully!!!', ToastAndroid.SHORT);
+    }
   }
-  submitLogin = () => {
+  onLoginPress(){
+   
+    if(this.validationCheck(this.props.username, this.props.password)){
+        this.setState({message:''});
+        this.props.Login(this.props.userName, this.props.password);
+        
+    }
     
-   
-  };
-  _onPressFb = () => {
-    alert("Fb Lgoin");
-  };
-  _onPressGoogle = () => {
-    alert("google login");
-  };
-  onChangeText(e){
-      alert(e);
+}
+validationCheck(username, password){
+  
+  if(!validateEmail(this.props.userName)){
+     this.setState({message:'Please fill valid email address.'})
+      return false;
   }
-  onSelectionChange(text){
-    console.log(text)
+  if(!this.props.password){
+   this.setState({message:'Please fill password.'})
+      return false
   }
-  onPressLogin(){
-       AsyncStorage.setItem('@username:key', `${this.state.username}`);
-       AsyncStorage.setItem('@password:key', `${this.state.password}`);
-
-      alert(`${this.state.username} ${this.state.password}`)
-  }
-  getSession(){
-     
-  }
+  return true;
+}
   render() {
-    return <Login onLogin={this.props.onLogin.bind(this)}/>;
-    
+    return (
+    <Login onLoginPress={this.onLoginPress.bind(this)} setDetails={this.props.setDetails.bind(this)} message={this.state.message}/>
+    );
   }
 }
-const mapStateToProps = state => {
- 
-  console.log('state::'. state)
-  let userStatus = state.userStatus;
+const mapStateToProps = (state, ownProps) => {
+
+  let localState = state['reducerLoginLocal'];
+  console.log("state", localState);
+  console.log(ownProps)
   return {
-      userStatus
+    ...ownProps,
+    ...localState 
   }
 };
 const mapDispatchToProps = dispatch => {
     return{
-        onLogin: (username, password) =>{
+        Login: (username, password) =>{
             dispatch(onLoginAction(username, password))
+        },
+        setDetails:(key, value) =>{
+          dispatch(setDetails(key, value))
         }
     }
     
 };
-Login = connect(mapStateToProps, mapDispatchToProps)(Login);
+export default LoginContainer = connect(mapStateToProps, mapDispatchToProps)(LoginContainer);

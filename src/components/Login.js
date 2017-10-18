@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import {
   View,
@@ -16,8 +17,7 @@ import {
   
 
 } from "react-native";
-import assets from "../assets/";
-import { validateEmail } from './validationHandler';
+import { assets } from "../assets/";
 var width = Dimensions.get('window').width; 
 
 var styles = StyleSheet.create({
@@ -31,74 +31,16 @@ var styles = StyleSheet.create({
     textStyle:{ fontFamily:'Open Sans',backgroundColor: 'rgba(0,0,0,0)', fontSize:14, color:'white'}
 
 })
-export default class Login extends React.Component {
+
+ class Login extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      fontLoaded: false,
-      username:null,
-      password:null,
-      emailNotValidate:false,
-      msg:null
-    };
   
   }
-  componentWillMount() {
-    let username =  AsyncStorage.getItem('@username:key',(err, result)=>{
-        if(err){
-            alert(err, "error");
-        } else {
-            alert(result, 'result');
-        }
-    });
-   
-  }
-  componentWillReceiveProps(nextProps) {
-   
-  }
-  submitLogin = () => {
-    
-   
-  };
-  _onPressFb = () => {
-    alert("Fb Lgoin");
-  };
-  _onPressGoogle = () => {
-    alert("google login");
-  };
-  onChangeText(e){
-      alert(e);
-  }
-  onSelectionChange(text){
-    console.log(text)
-  }
-  onPressLogin(){
-       AsyncStorage.setItem('@username:key', `${this.state.username}`);
-       AsyncStorage.setItem('@password:key', `${this.state.password}`);
-    
-       if(this.validationCheck(this.state.username, this.state.password)){
-           this.setState({msg:null})
-       }
-       
-  }
-  validationCheck(username, password){
-      
-      if(!validateEmail(this.state.username)){
-         this.setState({msg:'Please fill valid email address.'})
-          return false;
-      }
-      if(!this.state.password){
-       this.setState({msg:'Please fill password.'})
-          return false
-      }
-      return true;
-  }
-  getSession(){
-     
-  }
-  renderMessage(){
-    if(this.state.msg){
-       return (<Text style={{fontSize:12, color:'red'}}>{`${this.state.msg}`}</Text>); 
+
+ renderMessage(){
+    if(this.props.message){
+       return (<Text style={{fontSize:12, color:'red'}}>{`${this.props.message}`}</Text>); 
     }
   }
   render() {
@@ -111,20 +53,20 @@ export default class Login extends React.Component {
                     <View style={styles.inputField}>
                         <Image style={styles.inputIcon} source={assets.email} color="#000" />
                         <TextInput autoFocus={true} onSubmitEditing={(event)=>{this.refs.password.focus()}} style={styles.textInput} 
-                        onChangeText={email => { this.setState({ username: email });
+                        onChangeText={email => { this.props.setDetails('userName', email);
                         }} 
-                            onSelectionChange={(text)=>{this.onSelectionChange(text)}}  underlineColorAndroid={"transparent"} ref="username" placeholder="Email" />
+                         underlineColorAndroid={"transparent"} ref="username" placeholder="Email" />
                      
                      
                     </View>
                     <View style={styles.inputField}>
                         <Image style={styles.inputIcon}  source={assets.password} color="#000" />
                         <TextInput ref="password" style={styles.textInput} onChangeText={pass => {
-                            this.setState({ password: pass });
+                            this.props.setDetails('password', pass);
                         }} ref="password" secureTextEntry={true} underlineColorAndroid={"transparent"} placeholder="Password" />
                     </View>
                    
-                <TouchableHighlight onPress={this.onPressLogin.bind(this)} style={{ justifyContent: "center", alignItems: "center", borderBottomLeftRadius: 10, borderBottomRightRadius: 10, marginTop: 40, height: 50, backgroundColor: "#6196c2" }}>
+                <TouchableHighlight onPress={()=>this.props.onLoginPress()} style={{ justifyContent: "center", alignItems: "center", borderBottomLeftRadius: 10, borderBottomRightRadius: 10, marginTop: 40, height: 50, backgroundColor: "#6196c2" }}>
                     <Text style={{ color: "white" }}>Login</Text>
                 </TouchableHighlight>
             </View>
@@ -141,4 +83,13 @@ export default class Login extends React.Component {
   }
 }
 
+Login.propTypes = {
+    onLoginPress:PropTypes.func.isRequired ,
+    setDetails : PropTypes.func.isRequired,
+    message :PropTypes.string
 
+}
+Login.defaultProps = {
+     message : null
+}
+ export default Login
