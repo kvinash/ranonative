@@ -53,7 +53,7 @@ var styles = StyleSheet.create({
                
                     <View style={styles.inputField}>
                         <Image style={styles.inputIcon} source={assets.email} color="#000" />
-                        <TextInput underlineColorAndroid={'#f5f5f5'} autoFocus={true} onSubmitEditing={(event)=>{this.refs.password.focus()}} style={styles.textInput} 
+                        <TextInput keyboardType={'email-address'}  underlineColorAndroid={'#f5f5f5'} autoFocus={true} onSubmitEditing={(event)=>{this.refs.password.focus()}} style={styles.textInput} 
                         onChangeText={email => { this.props.setDetails('userName', email);
                         }} 
                         ref="username" placeholder="Email" />
