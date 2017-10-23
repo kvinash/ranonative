@@ -19,8 +19,9 @@ import {
 } from "react-native";
 import assets from "../assets/";
 import { validateEmail } from '../components/validationHandler';
-import Login from '../components/Login'
+import Login from '../components/Login';
 import {onLoginAction, setDetails} from '../actions';
+import { NavigationActions } from 'react-navigation';
  class LoginContainer extends React.Component {
   constructor(props){
     super(props)
@@ -30,21 +31,28 @@ import {onLoginAction, setDetails} from '../actions';
     }
   }
   componentWillMount() {
-    // let username =  AsyncStorage.getItem('@username:key',(err, result)=>{
-    //     if(err){
-    //         alert(err, "error");
-    //     } else {
-    //         alert(result, 'result');
-    //     }
+    // let useruserNamename =  AsyncStorage.getItem('@userName:key');
+    // let password = AsyncStorage.getItem('@password:key');
+    // AsyncStorage.getItem('@loginToken:key', (tokenErr, loginToken)=>{
+    //     if(loginToken){
+    //       this.props.setDetails('loginToken', loginToken);
+    //       AsyncStorage.getItem('@userName',(userErr, userName)=>{
+    //         this.props.setDetails('userName', userName);
+    //         this.props.timeScreen();
+    //     })
+
+        
+    //   }
+    
     // });
-   
+    
   }
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps)
+    
     if(nextProps.loginStatus){
-      AsyncStorage.setItem('@username:key', `${this.props.username}`);
-      AsyncStorage.setItem('@password:key', `${this.props.password}`);
+      AsyncStorage.setItem('@userName:key', `${this.props.username}`);
       ToastAndroid.show('Login hase been done succesfully!!!', ToastAndroid.SHORT);
+      nextProps.timeScreen();
     }
   }
   onLoginPress(){
@@ -91,7 +99,11 @@ const mapDispatchToProps = dispatch => {
         },
         setDetails:(key, value) =>{
           dispatch(setDetails(key, value))
+        },
+        timeScreen:() => {
+          dispatch(NavigationActions.navigate({ routeName: 'Timesheet' }))
         }
+        
     }
     
 };

@@ -2,7 +2,11 @@ import { combineReducers } from "redux";
 import { NavigationActions } from 'react-navigation';
 
 import { AppNavigator } from '../navigators/AppNavigator';
+import {
 
+  AsyncStorage
+
+} from "react-native";
 
 // Start with two routes: The Main screen, with the Login screen on top.
 const firstAction = AppNavigator.router.getActionForPathAndParams('Login');
@@ -21,9 +25,10 @@ export const getEntityByKey = (state, key) => {
 const nav = (state = initialNavState, action) => {
   let nextState;
   switch (action.type) {
-    case 'Login':
+  
+    case 'Timesheet':
       nextState = AppNavigator.router.getStateForAction(
-        NavigationActions.back(),
+        NavigationActions.navigate({ routeName: 'Timesheet' }),
         state
       );
       break;
@@ -33,12 +38,7 @@ const nav = (state = initialNavState, action) => {
         state
       );
       break;
-    case 'Timesheet':
-      nextState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'Timesheet' }),
-        state
-      );
-    break;
+ 
     default:
       nextState = AppNavigator.router.getStateForAction(action, state);
       break;
@@ -85,6 +85,7 @@ const reducerLoginLocal = ( state=STATE, action) => {
       let loginStatus = false;
       if(cred.name === action.payload.username && cred.pass === action.payload.password){
         loginStatus = true
+        AsyncStorage.setItem('@loginToken:key', '123456');
       }
       return {...state, loginStatus}
       
@@ -103,5 +104,6 @@ const reducerLoginLocal = ( state=STATE, action) => {
 
 export default combineReducers({
  reducerLoginApi,
-   reducerLoginLocal
+   reducerLoginLocal,
+   nav
 })

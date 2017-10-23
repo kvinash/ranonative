@@ -25,8 +25,9 @@ var styles = StyleSheet.create({
     logoStyle:{ resizeMode: "stretch", height: 27, width: 250, marginTop: 100, marginBottom: 70 },
     loginForm : { borderRadius: 10, backgroundColor: "white", marginTop: 40, height: 190, width: width * 0.8 },
     inputField : { flexDirection: "row", flex: 1, marginTop: 10 },
-    inputIcon : { flex: 0.1, margin: 15, resizeMode: "contain"},
-    textInput : { flex:.7 },
+    inputIcon : { flex: 0.1, margin: 12, resizeMode: "contain"},
+    inputIconPass : { flex: 0.1, marginTop: 8 ,marginLeft:12, marginRight:12, resizeMode: "contain"},
+    textInput : { flex:.7},
     textMargin:{ marginTop:20 },
     textStyle:{ fontFamily:'Open Sans',backgroundColor: 'rgba(0,0,0,0)', fontSize:14, color:'white'}
 
@@ -52,22 +53,22 @@ var styles = StyleSheet.create({
                
                     <View style={styles.inputField}>
                         <Image style={styles.inputIcon} source={assets.email} color="#000" />
-                        <TextInput autoFocus={true} onSubmitEditing={(event)=>{this.refs.password.focus()}} style={styles.textInput} 
+                        <TextInput underlineColorAndroid={'#f5f5f5'} autoFocus={true} onSubmitEditing={(event)=>{this.refs.password.focus()}} style={styles.textInput} 
                         onChangeText={email => { this.props.setDetails('userName', email);
                         }} 
-                         underlineColorAndroid={"transparent"} ref="username" placeholder="Email" />
+                        ref="username" placeholder="Email" />
                      
                      
                     </View>
                     <View style={styles.inputField}>
-                        <Image style={styles.inputIcon}  source={assets.password} color="#000" />
+                        <Image style={styles.inputIconPass}  source={assets.password} color="#000" />
                         <TextInput ref="password" style={styles.textInput} onChangeText={pass => {
                             this.props.setDetails('password', pass);
-                        }} ref="password" secureTextEntry={true} underlineColorAndroid={"transparent"} placeholder="Password" />
+                        }} ref="password" secureTextEntry={true} underlineColorAndroid={'#f5f5f5'} placeholder="Password" />
                     </View>
                    
                 <TouchableHighlight onPress={()=>this.props.onLoginPress()} style={{ justifyContent: "center", alignItems: "center", borderBottomLeftRadius: 10, borderBottomRightRadius: 10, marginTop: 40, height: 50, backgroundColor: "#6196c2" }}>
-                    <Text style={{ color: "white" }}>Login</Text>
+                    <Text style={{ color: "white" , fontWeight : '500' , fontSize :20}}>LOGIN</Text>
                 </TouchableHighlight>
             </View>
             

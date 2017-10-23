@@ -2,14 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
-
+import { View , Text} from 'react-native';
 import LoginContainer from '../containers/LoginContainer';
-import WebContainer from '../containers/WebContainer';
-
-
+import TimesheetContainer from '../containers/TimesheetContainer';
+import Header from '../components/Header';
 export const AppNavigator = StackNavigator({
-  Login : { screen: LoginContainer },
-  Timesheet : { screen: TimesheetContainer },
+  Login : { screen: LoginContainer ,
+    navigationOptions: ({navigation}) => ({
+      header : null
+    })}, 
+  Timesheet : { screen: TimesheetContainer ,
+    navigationOptions: ({navigation}) => ({
+      header : <Header name={'TimeSheet'}/>
+    })},
   
 });
 
