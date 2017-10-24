@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 import { NavigationActions } from 'react-navigation';
 
-import { AppNavigator } from '../navigators/AppNavigator';
+import { AppNavigator, AppDrawerNavigator} from '../navigators/AppNavigator';
 import {
 
   AsyncStorage
@@ -15,23 +15,46 @@ const tempNavState = AppNavigator.router.getStateForAction(firstAction);
 const initialNavState = AppNavigator.router.getStateForAction(
   tempNavState
 );
-
+//current navigation drawer state open or close.
+const defaultGetStateForAction = AppDrawerNavigator.router.getStateForAction;
+let drawerStatus = {
+  state : false
+};
+AppDrawerNavigator.router.getStateForAction = (action, state) => {
+  
+      //use 'DrawerOpen' to capture drawer open event
+      if (state && action.type === 'Navigation/NAVIGATE' && action.routeName === 'DrawerOpen') {
+          drawerStatus.state = true;
+          //write the code you want to deal with 'DrawerClose' event
+      }
+      return defaultGetStateForAction(action, state);
+  };
 export const getEntityByKey = (state, key) => {
   if(state && state[key]){
     return state[key];
   }
   return null;
 }
+const drawerState = (state=drawerStatus, action)=>{
+ 
+   return drawerStatus;
+}
 const nav = (state = initialNavState, action) => {
   let nextState;
   switch (action.type) {
   
-    case 'Timesheet':
+    case 'DrawerNavigation':
       nextState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'Timesheet' }),
+        NavigationActions.navigate({ routeName: 'DrawerNavigation' }),
         state
       );
       break;
+    case 'DrawerOpen':
+      nextState = AppNavigator.router.getStateForAction(
+        NavigationActions.navigate({ routeName: 'DrawerOpen' }),
+        state
+    );
+    break;
     case 'Logout':
       nextState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'Login' }),
@@ -105,5 +128,8 @@ const reducerLoginLocal = ( state=STATE, action) => {
 export default combineReducers({
  reducerLoginApi,
    reducerLoginLocal,
-   nav
+   nav,
+   drawerState
+ 
+
 })

@@ -108,7 +108,7 @@ const mapDispatchToProps = dispatch => {
           dispatch(setDetails(key, value))
         },
         timeScreen:() => {
-          dispatch(NavigationActions.navigate({ routeName: 'Timesheet' }))
+          dispatch(NavigationActions.navigate({ routeName: 'DrawerNavigation' }))
         }
         
     }

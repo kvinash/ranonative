@@ -7,33 +7,33 @@ import LoginContainer from '../containers/LoginContainer';
 import TimesheetContainer from '../containers/TimesheetContainer';
 import Header from '../components/Header';
 
-export const AppDrawerNavigator = DrawerNavigator({
-  Timesheet : { screen: TimesheetContainer }
-},{headerMode:'None'});
-export const AppNavigator = StackNavigator({
+export const AppNavigator = DrawerNavigator({
   Login : { screen: LoginContainer ,
     navigationOptions: ({navigation}) => ({
       header : null,
-      
+      drawerLockMode:'locked-closed'
     })}, 
-  DrawerNavigation : { screen: AppDrawerNavigator,
+    Timesheet : { screen: TimesheetContainer ,
     navigationOptions: ({navigation}) => ({
       header : <Header navigation={navigation} name={'TimeSheet'}/>
     })},
   
+},{
+    headeMode:'none',
 });
 
 const AppWithNavigationState = ({ dispatch, nav }) => (
-  <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav })} />
-);
+    <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav })} />
+  );
+  
+  AppWithNavigationState.propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    nav: PropTypes.object.isRequired,
+  };
+  
+  const mapStateToProps = state => ({
+    nav: state.nav,
+  });
 
-AppWithNavigationState.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  nav: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = state => ({
-  nav: state.nav,
-});
 
 export default connect(mapStateToProps)(AppWithNavigationState);

@@ -3,6 +3,7 @@ export const assets = {
     logo : require('../assets/logo.png'),
     email : require('../assets/email.png'),
     password : require('../assets/password.png'),
+    menuIcon : require('../assets/navigation_menu_icon.png')
     
 }
 export const url = {
