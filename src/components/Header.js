@@ -11,7 +11,7 @@ let styles = StyleSheet.create({
     },
     headerText : {
         fontFamily : 'Open Sans',
-        fontSize : 24,
+        fontSize : 22,
         fontWeight : '300',
         color: colors.white,
         padding: 10
