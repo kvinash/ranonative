@@ -20,6 +20,7 @@ import {
 import assets from "../assets/";
 import { validateEmail } from '../components/validationHandler';
 import Login from '../components/Login';
+import LoadingScreen from '../components/LoadingScreen';
 import {onLoginAction, setDetails} from '../actions';
 import { NavigationActions } from 'react-navigation';
  class LoginContainer extends React.Component {
@@ -27,21 +28,22 @@ import { NavigationActions } from 'react-navigation';
     super(props)
     console.log('containerProps', this.props);
     this.state={
-      message : null
+      message : null,
+      isLoading : true
     }
   }
   componentWillMount() {
-    let useruserNamename =  AsyncStorage.getItem('@userName:key');
-    let password = AsyncStorage.getItem('@password:key');
+    let userName =  AsyncStorage.getItem('@userName:key');
+    
     AsyncStorage.getItem('@loginToken:key', (tokenErr, loginToken)=>{
         if(loginToken){
           this.props.setDetails('loginToken', loginToken);
           AsyncStorage.getItem('@userName',(userErr, userName)=>{
             this.props.setDetails('userName', userName);
             this.props.timeScreen();
-        })
-
-        
+        })  
+      } else {
+        this.setState({isLoading : false})
       }
     
     });
@@ -51,7 +53,7 @@ import { NavigationActions } from 'react-navigation';
     
     if(nextProps.loginStatus){
       AsyncStorage.setItem('@userName:key', `${this.props.username}`);
-      ToastAndroid.show('Login hase been done succesfully!!!', ToastAndroid.SHORT);
+      //ToastAndroid.show('Login hase been done succesfully!!!', ToastAndroid.SHORT);
       nextProps.timeScreen();
     }
   }
@@ -77,9 +79,14 @@ validationCheck(username, password){
   return true;
 }
   render() {
-    return (
-    <Login onLoginPress={this.onLoginPress.bind(this)} setDetails={this.props.setDetails.bind(this)} message={this.state.message}/>
-    );
+    if(this.state.isLoading){
+      return (<LoadingScreen/>);
+    } else {
+      return (
+        <Login onLoginPress={this.onLoginPress.bind(this)} setDetails={this.props.setDetails.bind(this)} message={this.state.message}/>
+        );
+    }
+    
   }
 }
 const mapStateToProps = (state, ownProps) => {
