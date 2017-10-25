@@ -33,20 +33,20 @@ import { NavigationActions } from 'react-navigation';
     }
   }
   componentWillMount() {
-    // let userName =  AsyncStorage.getItem('@userName:key');
+    let userName =  AsyncStorage.getItem('@userName:key');
     
-    // AsyncStorage.getItem('@loginToken:key', (tokenErr, loginToken)=>{
-    //     if(loginToken){
-    //       this.props.setDetails('loginToken', loginToken);
-    //       AsyncStorage.getItem('@userName',(userErr, userName)=>{
-    //         this.props.setDetails('userName', userName);
-    //         this.props.timeScreen();
-    //     })  
-    //   } else {
-    //     this.setState({isLoading : false})
-    //   }
+    AsyncStorage.getItem('@loginToken:key', (tokenErr, loginToken)=>{
+        if(loginToken){
+          this.props.setDetails('loginToken', loginToken);
+          AsyncStorage.getItem('@userName',(userErr, userName)=>{
+            this.props.setDetails('userName', userName);
+            this.props.timeScreen();
+        })  
+      } else {
+        this.setState({isLoading : false})
+      }
     
-    // });
+    });
     this.setState({isLoading : false})
   }
   componentWillReceiveProps(nextProps) {
