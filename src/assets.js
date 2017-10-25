@@ -3,8 +3,9 @@ export const assets = {
     logo : require('../assets/logo.png'),
     email : require('../assets/email.png'),
     password : require('../assets/password.png'),
-    menuIcon : require('../assets/navigation_menu_icon.png')
-    
+    menuIcon : require('../assets/navigation_menu_icon.png'),
+    userIcon : require('../assets/user_icon.png'),
+    logoutIcon : require('../assets/logout_icon.png')
 }
 export const url = {
     jcobUrl : 'http://jacobsmassey.co.uk/timesheet-login/'

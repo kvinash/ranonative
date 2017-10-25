@@ -1,5 +1,7 @@
 
 export const MATCH_DETAILS = 'MATCH_DETAILS';
+export const SET_DETAILS = 'SET_DETAILS';
+export const LOGOUT = 'LOGOUT'
 export function onLoginAction(username, password){
     return {
         type : MATCH_DETAILS,
@@ -9,7 +11,7 @@ export function onLoginAction(username, password){
         }
     }
 }
-export const SET_DETAILS = 'SET_DETAILS';
+
 export function setDetails(key , value){
     return {
         type : SET_DETAILS,
@@ -17,5 +19,11 @@ export function setDetails(key , value){
             key : key,
             value : value
         }
+    }
+}
+
+export function onLogoutAction(){
+    return{
+        type : LOGOUT
     }
 }

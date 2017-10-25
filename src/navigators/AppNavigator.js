@@ -5,11 +5,22 @@ import { addNavigationHelpers, StackNavigator, DrawerNavigator } from 'react-nav
 import { View , Text} from 'react-native';
 import LoginContainer from '../containers/LoginContainer';
 import TimesheetContainer from '../containers/TimesheetContainer';
+import SideDrawerContainer from '../containers/SideDrawerContainer';
 import Header from '../components/Header';
 
+
+
+
 export const AppDrawerNavigator = DrawerNavigator({
-  Timesheet : { screen: TimesheetContainer }
-},{headerMode:'None'});
+  Timesheet : { screen: TimesheetContainer },
+  },
+  {
+    contentComponent:(props)=><SideDrawerContainer {...props}/>,
+     headerMode:'None'
+  });
+
+
+
 export const AppNavigator = StackNavigator({
   Login : { screen: LoginContainer ,
     navigationOptions: ({navigation}) => ({

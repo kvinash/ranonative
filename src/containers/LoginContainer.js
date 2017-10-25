@@ -33,21 +33,21 @@ import { NavigationActions } from 'react-navigation';
     }
   }
   componentWillMount() {
-    let userName =  AsyncStorage.getItem('@userName:key');
+    // let userName =  AsyncStorage.getItem('@userName:key');
     
-    AsyncStorage.getItem('@loginToken:key', (tokenErr, loginToken)=>{
-        if(loginToken){
-          this.props.setDetails('loginToken', loginToken);
-          AsyncStorage.getItem('@userName',(userErr, userName)=>{
-            this.props.setDetails('userName', userName);
-            this.props.timeScreen();
-        })  
-      } else {
-        this.setState({isLoading : false})
-      }
+    // AsyncStorage.getItem('@loginToken:key', (tokenErr, loginToken)=>{
+    //     if(loginToken){
+    //       this.props.setDetails('loginToken', loginToken);
+    //       AsyncStorage.getItem('@userName',(userErr, userName)=>{
+    //         this.props.setDetails('userName', userName);
+    //         this.props.timeScreen();
+    //     })  
+    //   } else {
+    //     this.setState({isLoading : false})
+    //   }
     
-    });
-    
+    // });
+    this.setState({isLoading : false})
   }
   componentWillReceiveProps(nextProps) {
     
@@ -61,7 +61,7 @@ import { NavigationActions } from 'react-navigation';
    
     if(this.validationCheck(this.props.username, this.props.password)){
         this.setState({message:''});
-        this.props.Login(this.props.userName, this.props.password);
+        this.props.login(this.props.userName, this.props.password);
         
     }
     
@@ -101,7 +101,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 const mapDispatchToProps = dispatch => {
     return{
-        Login: (username, password) =>{
+        login: (username, password) =>{
             dispatch(onLoginAction(username, password))
         },
         setDetails:(key, value) =>{

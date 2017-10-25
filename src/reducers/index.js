@@ -21,7 +21,7 @@ let drawerStatus = {
   state : false
 };
 AppDrawerNavigator.router.getStateForAction = (action, state) => {
-  
+         drawerStatus.state = false;
       //use 'DrawerOpen' to capture drawer open event
       if (state && action.type === 'Navigation/NAVIGATE' && action.routeName === 'DrawerOpen') {
           drawerStatus.state = true;
@@ -49,12 +49,6 @@ const nav = (state = initialNavState, action) => {
         state
       );
       break;
-    case 'DrawerOpen':
-      nextState = AppNavigator.router.getStateForAction(
-        NavigationActions.navigate({ routeName: 'DrawerOpen' }),
-        state
-    );
-    break;
     case 'Logout':
       nextState = AppNavigator.router.getStateForAction(
         NavigationActions.navigate({ routeName: 'Login' }),
@@ -118,6 +112,14 @@ const reducerLoginLocal = ( state=STATE, action) => {
       console.log("action action action", action)
         state[action.payload.key] = action.payload.value;
         return {...state}
+    }
+
+    case 'LOGOUT' : {
+      AsyncStorage.removeItem('@loginToken:key');
+      state[USER_NAME] = '';
+      state[PASSWORD] = '';
+      state[LOGIN_STATUS] = false;
+      return {...state}
     }
     default :{
       return state

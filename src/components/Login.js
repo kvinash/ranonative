@@ -4,16 +4,14 @@ import { connect } from "react-redux";
 import {
   View,
   Image,
-  StatusBar,
-  TouchableHighlight,
-  Alert,
   WebView,
   Text,
   ImageBackground,
   TextInput,
   StyleSheet,
   Dimensions,
-  AsyncStorage
+  AsyncStorage,
+  TouchableOpacity
   
 
 } from "react-native";
@@ -67,9 +65,9 @@ var styles = StyleSheet.create({
                         }} ref="password" secureTextEntry={true} underlineColorAndroid={'#f5f5f5'} placeholder="Password" />
                     </View>
                    
-                <TouchableHighlight onPress={()=>this.props.onLoginPress()} style={{ justifyContent: "center", alignItems: "center", borderBottomLeftRadius: 10, borderBottomRightRadius: 10, marginTop: 40, height: 50, backgroundColor: "#6196c2" }}>
+                <TouchableOpacity onPress={()=>this.props.onLoginPress()}  activeOpacity={.7}  style={{ justifyContent: "center", alignItems: "center", borderBottomLeftRadius: 10, borderBottomRightRadius: 10, marginTop: 40, height: 50, backgroundColor: "#6196c2" }}>
                     <Text style={{ color: "white" , fontWeight : '500' , fontSize :20}}>LOGIN</Text>
-                </TouchableHighlight>
+                </TouchableOpacity>
             </View>
             
             <Text style={[styles.textStyle, styles.textMargin]}>If you have forgotten your Password,</Text>
